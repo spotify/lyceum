@@ -1,0 +1,19 @@
+#!/bin/bash
+JAR="/usr/lib/lyceum/lyceum-standalone.jar"
+
+if [[ -d target ]]; then
+    JAR=$(find target -maxdepth 1 -name 'lyceum-*-standalone.jar')
+fi
+
+if [[ -f /etc/default/lyceum ]]; then
+    source /etc/default/lyceum
+fi
+
+LYCEUM_CLASSPATH="$JAR"
+
+if [[ -n $CLASSPATH ]]; then
+    LYCEUM_CLASSPATH="$CLASSPATH:$LYCEUM_CLASSPATH"
+fi
+
+echo "LYCEUM_CLASSPATH=$LYCEUM_CLASSPATH"
+exec java -cp "$LYCEUM_CLASSPATH" lyceum.service "$@"
