@@ -1,4 +1,5 @@
 # lyceum
+[![Clojars Project](http://clojars.org/lyceum/latest-version.svg)](http://clojars.org/lyceum)
 
 A Clojure library designed to help in the authoring and testing of modules
 riemann rules.
