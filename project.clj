@@ -1,4 +1,4 @@
-(defproject lyceum "0.1.0"
+(defproject lyceum "0.1.1-SNAPSHOT"
   :description "A riemann plugin to build and deploy modular rules."
   :url "https://github.com/spotify/lyceum"
   :license {:name "Apache License 2.0"
