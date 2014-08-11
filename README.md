@@ -25,6 +25,7 @@ Some key points.
   `riemann.time/schedule!` that has a thread-local implementation without global
   state.
   With this comes also faked time (`riemann.time/unix-time` et. al.).
+* Provides a [restful HTTP service](#http-service) for evaluating rules on-the-fly.
 
 # Getting Started
 
@@ -149,3 +150,59 @@ Valid modes are.
 Wrapping your own external is straight forward, you can use
 [the email external](src/lyceum/external/email.clj) as an example for how to do
 this.
+
+# HTTP Service
+
+You can start the HTTP service by running.
+
+```
+#> lein run [lyceum.conf]
+```
+
+Or the ___lyceum.service___ class in the resulting uberjar.
+
+```
+#> java -jar <path-to-jar> lyceum.service [lyceum.conf]
+```
+
+It expects to find a [lyceum.conf](lyceum.conf) in the current working directory, or one can be provided as an argument.
+
+The service is currently capable of loading rules the following ways.
+
++ Github through [github-rules](src/lyceum/service/rules_loader/github.clj)
++ Filesystem through [directory-rules](src/lyceum/service/rules_loader/directory.clj)
+
+#### POST /eval
+
+Will evaluate the received data (___VERY UNSAFE___) and apply the provided rules to them.
+
++ Response 200 (application/json)
++ Response 500 (application/json)
+
+###### Request Structure
+```javascript
+{"data": <string>, "events": [<event>, ..]}
+```
+
+###### Response Structure
+```javascript
+{/* contains any external events (like pagerduty) that happened */
+ "reports":[<report>, ..],
+ /* contains the events which was indexed during this evaluation. */
+ "index":[<event>, ..]
+}
+```
+
+###### Example CURL
+```
+#> curl http://localhost:8080/eval -H "Content-Type: application/json"
+          -d '{"data": "(ns hello.world) (defn rules [{:keys [index]}] (fn [e] (index e)))", "events": [{"service": "foo"}]}'
+```
+
+#### GET /ns/
+
+Will request a list of namespaces, see [lyceum.conf](lyceum.conf) for how this is configured.
+
+#### GET /ns/{ns}
+
+Will request the content of a specific namespace ___{ns}___, see [lyceum.conf](lyceum.conf) for how this is configured.
