@@ -15,13 +15,12 @@
     [lein-marginalia "0.7.1"]
   ]
   :java-options ["-Dlyceum.mode=test"]
-  :java-source-paths ["src/"]
+  :source-path "src/"
   :java-source-path "src/"
   :test-selectors {
     :default (complement :integration)
     :integration :integration
     :all (constantly true)
   }
-  :eval-in-leiningen true
   :main lyceum.service
 )

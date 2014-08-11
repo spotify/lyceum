@@ -95,14 +95,20 @@
               (eval expr)))))
 
       (let [reports (atom [])
-            make-rules-fn (ns-resolve current-ns 'rules)
             index (atom [])
-            index-fn (fn [e] (swap! index index-add e))
-            rules-fn (make-rules-fn {:index index-fn})
-            send-events (make-send-events-fn rules-fn)]
-        (binding [*external-reports* reports]
-          (send-events events))
-        {:reports @reports :index @index})
+            make-rules-fn (ns-resolve current-ns 'rules)]
+        (when-not make-rules-fn
+          (throw (Exception. "No 'rules' function in evaluated namespace.")))
+
+        (let [index-fn (fn [e] (swap! index index-add e))
+              rules-fn (make-rules-fn {:index index-fn})]
+          (when-not (and rules-fn (fn? rules-fn))
+            (throw (Exception. "Calling 'rules' did not return a stream function.")))
+
+          (let [send-events (make-send-events-fn rules-fn)]
+            (binding [*external-reports* reports]
+              (send-events events))
+            {:reports @reports :index @index})))
 
       (finally
         (remove-ns temp-ns-name)))))
@@ -115,7 +121,7 @@
 
 (defn- http-eval-rule [req]
   (let [json-body-string (slurp (:body req))
-        json-body (json/parse-string json-body-string)
+        json-body (or (json/parse-string json-body-string) {})
         data (json-body "data" "")
         events (json-body "events" [])
         current-time (int (json-body "current-time" 0))]
