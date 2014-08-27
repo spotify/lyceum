@@ -128,7 +128,7 @@ the guide above.
 Lyceum uses __externals__ to interact with external systems, externals are thin
 wrappers around the riemann's external integrations (email, pagerduty, etc.).
 
-By default lyceum uses the __fake__ mode which wall cause any external
+By default lyceum uses the __fake__ mode which will cause any external
 interactions to be logged instead of realized.
 This is what allows the test-cases to verify external effects with
 `check-externals`.
