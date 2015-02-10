@@ -56,7 +56,6 @@
   (require '[lyceum.external.email :refer :all])
   (require '[lyceum.external.hipchat :refer :all])
   (require '[lyceum.external.pagerduty :refer :all])
-  (require '[lyceum.external.monitoring-alert :refer :all])
   (require '[lyceum.external.logging :refer :all])
   (require '[lyceum.external.tcp-forward :refer :all]))
 
