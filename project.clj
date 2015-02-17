@@ -16,7 +16,7 @@
   ]
   :java-options ["-Dlyceum.mode=test"]
   :source-path "src/"
-  :java-source-path "src/"
+  :java-source-paths ["src/"]
   :test-selectors {
     :default (complement :integration)
     :integration :integration
