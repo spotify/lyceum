@@ -1,0 +1,15 @@
+#!/bin/bash
+
+JVMARGS="/etc/spotify/default/spotify-lyceum-riehab.jvmargs"
+
+if [[ -f "$JVMARGS" ]]; then
+  . $JVMARGS
+fi
+
+CLASSPATH="/usr/lib/spotify-lyceum/lyceum-standalone.jar"
+
+if [[ -n "$EXTRA_CLASSPATH" ]]; then
+  CLASSPATH+=":${EXTRA_CLASSPATH}"
+fi
+
+exec java -cp $CLASSPATH lyceum.riehab "$@"

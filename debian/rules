@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+LEIN=debian/lein
+LEIN_OPTS=with-profile user
+LEIN_HOME=debian/lein_home
+
+$(LEIN_HOME):
+	mkdir -p $(LEIN_HOME)/.lein
+	cp debian/profiles.clj $(LEIN_HOME)/.lein
+
+$(LEIN): $(LEIN_HOME)
+	curl https://raw.github.com/technomancy/leiningen/stable/bin/lein -L -o $(LEIN)
+	chmod +x $(LEIN)
+
+override_dh_clean: $(LEIN)
+	LEIN_ROOT=1 LEIN_JVM_OPTS="-Duser.home=$(LEIN_HOME)" HOME=$(LEIN_HOME) $(LEIN) $(LEIN_OPTS) clean
+	dh_clean
+
+override_dh_auto_test: $(LEIN)
+	LEIN_ROOT=1 LEIN_JVM_OPTS="-Duser.home=$(LEIN_HOME)" HOME=$(LEIN_HOME) $(LEIN) $(LEIN_OPTS) test
+
+override_dh_auto_build: $(LEIN)
+	LEIN_ROOT=1 LEIN_JVM_OPTS="-Duser.home=$(LEIN_HOME)" HOME=$(LEIN_HOME) $(LEIN) $(LEIN_OPTS) uberjar
+	LEIN_ROOT=1 LEIN_JVM_OPTS="-Duser.home=$(LEIN_HOME)" HOME=$(LEIN_HOME) $(LEIN) $(LEIN_OPTS) marg -m
+
+override_dh_install:
+	mkdir target/debian
+	mv target/lyceum-*-standalone.jar target/debian/lyceum-standalone.jar
+	mv target/lyceum-*.jar target/debian/lyceum.jar
+	dh_install

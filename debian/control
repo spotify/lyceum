@@ -1,0 +1,18 @@
+Source: spotify-lyceum
+Section: non-free/net
+Priority: extra
+Maintainer: Hero Squad <hero@spotify.net>
+Standards-Version: 3.8.3
+Build-Depends:
+ debhelper,
+ default-jdk
+
+Package: spotify-lyceum
+Depends:
+ default-jre
+Architecture: all
+Description: Project to distribute riemann rules for spotify.
+
+Package: spotify-lyceum-apidocs
+Architecture: all
+Description: API documentation for lyceum.
