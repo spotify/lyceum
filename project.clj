@@ -5,8 +5,8 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
   :dependencies
   [
-   [org.clojure/clojure "1.5.1"]
-   [riemann/riemann "0.2.5"]
+   [org.clojure/clojure "1.7.0"]
+   [riemann/riemann "0.2.10"]
    [http-kit "2.1.16"]
    [compojure "1.1.6"]
    [javax.servlet/javax.servlet-api "3.1.0"]
