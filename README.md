@@ -5,7 +5,7 @@
 A Clojure library designed to help in the authoring and testing of modules
 riemann rules.
 
-Each rule lives and is distributed within different namespace.
+Each rule lives and is distributed within a different namespace.
 Lyceum will take care to iterate the classpath and look for namespaces
 containing rules.
 
