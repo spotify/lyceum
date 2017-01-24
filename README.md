@@ -99,7 +99,7 @@ add the following declaration in your riemann.config.
 
 (streams
   ; load any namespaces containing rules under 'my-rules.rules'.
-  ; Placklist any tutorial namespaces to avoid loading them.
+  ; blacklist any tutorial namespaces to avoid loading them.
   (lyceum/load-rules
     'my-rules.rules
     :opts {:index index}
