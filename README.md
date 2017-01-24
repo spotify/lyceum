@@ -5,7 +5,7 @@
 A Clojure library designed to help in the authoring and testing of modules
 riemann rules.
 
-Each rule lives and are distributed in different namespace.
+Each rule lives and is distributed within different namespace.
 Lyceum will take care to iterate the classpath and look for namespaces
 containing rules.
 
@@ -15,7 +15,7 @@ operation.
 
 Tests are run with little overhead, it is not required to start a riemann
 core, instead lyceum takes the approach of completely _simulating_ riemann
-operation while emposing a little bit of structure on the way you write rules
+operation while imposing a little bit of structure on the way you write rules
 to make things manageable.
 
 Some key points.
